@@ -7,6 +7,8 @@ import cn.hellohao.dao.KeysMapper;
 import cn.hellohao.pojo.Keys;
 import cn.hellohao.service.KeysService;
 
+import java.util.List;
+
 @Service
 public class KeysServiceImpl implements KeysService {
 
@@ -19,11 +21,15 @@ public class KeysServiceImpl implements KeysService {
         return keysMapper.selectKeys(storageType);
     }
 
-
     @Override
     public Integer updateKey(Keys key) {
         // TODO Auto-generated method stub
         return keysMapper.updateKey(key);
+    }
+
+    @Override
+    public List<Keys> getKeys() {
+        return null;
     }
 
 }

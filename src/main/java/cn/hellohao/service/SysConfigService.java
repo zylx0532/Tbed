@@ -1,6 +1,5 @@
 package cn.hellohao.service;
 
-import cn.hellohao.dao.SysConfigMapper;
 import cn.hellohao.pojo.SysConfig;
 import org.springframework.stereotype.Service;
 

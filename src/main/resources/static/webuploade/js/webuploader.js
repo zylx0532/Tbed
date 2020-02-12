@@ -6,7 +6,9 @@
  *
  * AMD API 内部的简单不完全实现，请忽略。只有当WebUploader被合并成一个文件的时候才会引入。
  */
+var count2 = 0;
 (function( root, factory ) {
+
     var modules = {},
 
         // 内部require, 简单不完全实现。
@@ -2909,7 +2911,8 @@
     
                 // 类型不匹配，则派送错误事件，并返回。
                 if ( !me.acceptFile( file ) ) {
-                    me.owner.trigger( 'error', 'Q_TYPE_DENIED', file );
+                    //me.owner.trigger( 'error', 'Q_TYPE_DENIED', file );
+                    me.owner.trigger( 'error', '拒绝上传此类型数据', file );
                     return;
                 }
     
@@ -3191,7 +3194,6 @@
         };
     
         $.extend( Transport.prototype, {
-    
             // 添加Blob, 只能添加一次，最后一次有效。
             appendBlob: function( key, blob, filename ) {
                 var me = this,
@@ -3214,6 +3216,7 @@
             // 添加其他字段
             append: function( key, value ) {
                 if ( typeof key === 'object' ) {
+
                     $.extend( this._formData, key );
                 } else {
                     this._formData[ key ] = value;
@@ -3980,6 +3983,7 @@
     
             // 做上传操作。
             _doSend: function( block ) {
+
                 var me = this,
                     owner = me.owner,
                     opts = me.options,
@@ -4090,6 +4094,7 @@
     
             // 完成上传。
             _finishFile: function( file, ret, hds ) {
+                count2 = 0;
                 var owner = this.owner;
     
                 return owner
@@ -4192,7 +4197,7 @@
         api.addValidator( 'fileNumLimit', function() {
             var uploader = this,
                 opts = uploader.options,
-                count = 0,
+                // count = 0,
                 max = parseInt( opts.fileNumLimit, 10 ),
                 flag = true;
     
@@ -4202,7 +4207,7 @@
     
             uploader.on( 'beforeFileQueued', function( file ) {
     
-                if ( count >= max && flag ) {
+                if ( count2 >= max && flag ) {
                     flag = false;
                     this.trigger( 'error', 'Q_EXCEED_NUM_LIMIT', max, file );
                     setTimeout(function() {
@@ -4210,19 +4215,19 @@
                     }, 1 );
                 }
     
-                return count >= max ? false : true;
+                return count2 >= max ? false : true;
             });
     
             uploader.on( 'fileQueued', function() {
-                count++;
+                count2++;
             });
     
             uploader.on( 'fileDequeued', function() {
-                count--;
+                count2--;
             });
     
             uploader.on( 'reset', function() {
-                count = 0;
+                count2 = 0;
             });
         });
     

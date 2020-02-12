@@ -6,28 +6,30 @@ public class Config {
     private Integer emails;
     private String webname;
     private String explain;
-    private String logos;
-    private String footed;
+    private String video;
+    private Integer backtype;
     private String links;
     private String notice;
     private String baidu;
     private String domain;
-    private  String background1;
-    private  String background2;
-    private  Integer sett;
-
+    private String background1;
+    private String background2;
+    private String sett;
+    private String webms;
+    private String webkeywords;
+    private String webfavicons;
 
     public Config() {
     }
 
-    public Config(Integer id, Integer sourcekey, Integer emails, String webname, String explain, String logos, String footed, String links, String notice, String baidu, String domain, String background1, String background2, Integer sett) {
+    public Config(Integer id, Integer sourcekey, Integer emails, String webname, String explain, String video, Integer backtype, String links, String notice, String baidu, String domain, String background1, String background2, String sett, String webms, String webkeywords, String webfavicons) {
         this.id = id;
         this.sourcekey = sourcekey;
         this.emails = emails;
         this.webname = webname;
         this.explain = explain;
-        this.logos = logos;
-        this.footed = footed;
+        this.video = video;
+        this.backtype = backtype;
         this.links = links;
         this.notice = notice;
         this.baidu = baidu;
@@ -35,6 +37,9 @@ public class Config {
         this.background1 = background1;
         this.background2 = background2;
         this.sett = sett;
+        this.webms = webms;
+        this.webkeywords = webkeywords;
+        this.webfavicons = webfavicons;
     }
 
     public Integer getId() {
@@ -77,20 +82,20 @@ public class Config {
         this.explain = explain;
     }
 
-    public String getLogos() {
-        return logos;
+    public String getVideo() {
+        return video;
     }
 
-    public void setLogos(String logos) {
-        this.logos = logos;
+    public void setVideo(String video) {
+        this.video = video;
     }
 
-    public String getFooted() {
-        return footed;
+    public Integer getBacktype() {
+        return backtype;
     }
 
-    public void setFooted(String footed) {
-        this.footed = footed;
+    public void setBacktype(Integer backtype) {
+        this.backtype = backtype;
     }
 
     public String getLinks() {
@@ -141,11 +146,35 @@ public class Config {
         this.background2 = background2;
     }
 
-    public Integer getSett() {
+    public String getSett() {
         return sett;
     }
 
-    public void setSett(Integer sett) {
+    public void setSett(String sett) {
         this.sett = sett;
+    }
+
+    public String getWebms() {
+        return webms;
+    }
+
+    public void setWebms(String webms) {
+        this.webms = webms;
+    }
+
+    public String getWebkeywords() {
+        return webkeywords;
+    }
+
+    public void setWebkeywords(String webkeywords) {
+        this.webkeywords = webkeywords;
+    }
+
+    public String getWebfavicons() {
+        return webfavicons;
+    }
+
+    public void setWebfavicons(String webfavicons) {
+        this.webfavicons = webfavicons;
     }
 }

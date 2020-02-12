@@ -1,21 +1,32 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 129.28.173.126
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50562
- Source Host           : 129.28.173.126:3306
+ Source Server Version : 50720
+ Source Host           : localhost:3306
  Source Schema         : picturebed
 
  Target Server Type    : MySQL
- Target Server Version : 50562
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 15/08/2019 16:49:51
+ Date: 07/11/2019 21:25:39
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for code
+-- ----------------------------
+DROP TABLE IF EXISTS `code`;
+CREATE TABLE `code`  (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `value` int(20) NOT NULL,
+  `code` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for config
@@ -24,25 +35,28 @@ DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config`  (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `sourcekey` int(4) NULL DEFAULT NULL,
-  `emails` int(4) NULL DEFAULT NULL,
+  `emails` int(4) NULL DEFAULT NULL COMMENT '邮箱配置',
   `webname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '网站名',
   `explain` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '首页左下角说明',
-  `logos` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '左下角的图片地址',
-  `footed` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '页脚版权',
-  `links` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '友链',
+  `video` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '视频地址',
+  `backtype` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '背景类型',
+  `links` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备案号',
   `notice` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '公告',
   `baidu` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '百度统计',
   `domain` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '站点域名',
   `background1` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '首页背景图',
   `background2` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上传页面背景图',
-  `sett` int(2) NOT NULL,
+  `sett` int(2) NOT NULL COMMENT '首页样式',
+  `webms` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `webkeywords` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `webfavicons` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of config
 -- ----------------------------
-INSERT INTO `config` VALUES (1, 1, 1, 'Hellohao', '本站是Hellohao图床测试站，账号/密码：admin，为了更多人测试，切勿修改账号密码，恶意使用永久拉黑IP,并公布于众。', 'https://hellohao.nos-eastchina1.126.net/%E7%BD%91%E7%AB%99%E7%B4%A0%E6%9D%90/logo2.png', 'Hellohao  切勿上传违反中华人民共和国互联网法律条约资源', '<li><a href=\"http://www.hellohao.cn/\" rel=\"nofollow\" target=\"_blank\">作者博客</a></li><li><a href=\"http://bz.hellohao.cn/\" rel=\"nofollow\" target=\"_blank\">高清壁纸</a></li><li><a href=\"http://json.hellohao.cn/\" rel=\"nofollow\" target=\"_blank\">json格式化</a></li>', '也许...|这将是最好用的图床', 'console.log(\'百度统计JS代码\');', 'http://129.28.173.126:8088', 'https://hellohao.oss-cn-beijing.aliyuncs.com/Hellohao/eb83a0714030248.jpg', 'https://hellohao.oss-cn-beijing.aliyuncs.com/Hellohao/086650714030248.jpg', 1);
+INSERT INTO `config` VALUES (1, 7, 1, 'Hellohao', '网站由JAVA语言编写应用SpringBoot框架开发，前端全部组件由BootStrap/Layui框架编写。由作者个人更新维护，后期会加入更全面的功能供大家使用，如有BUG请与我反馈。', 'https://hellohao-cloud.oss-cn-beijing.aliyuncs.com/Pexels.mp4', '1', '<a href=\"http://hellohao.cn/\" rel=\"nofollow\" target=\"_blank\">Hellohao开发制作</a>', '也许...|这将是最好用的图床', 'console.log(\'百度统计JS代码\');', 'http://127.0.0.1:8088', 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1565769264&di=74d809d6cfae81bbab83bf9d573d8f9a&src=http://pic17.nipic.com/20110917/7420038_160826355111_2.jpg', 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1565769264&di=74d809d6cfae81bbab83bf9d573d8f9a&src=http://pic17.nipic.com/20110917/7420038_160826355111_2.jpg', 1, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for emailconfig
@@ -62,23 +76,40 @@ CREATE TABLE `emailconfig`  (
 -- ----------------------------
 -- Records of emailconfig
 -- ----------------------------
-INSERT INTO `emailconfig` VALUES (1, NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `emailconfig` VALUES (1, '', '', '', '', '', 0);
+
+-- ----------------------------
+-- Table structure for group
+-- ----------------------------
+DROP TABLE IF EXISTS `group`;
+CREATE TABLE `group`  (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `groupname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '组名称',
+  `keyid` int(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of group
+-- ----------------------------
+INSERT INTO `group` VALUES (1, '默认群组', 5);
 
 -- ----------------------------
 -- Table structure for imgdata
 -- ----------------------------
 DROP TABLE IF EXISTS `imgdata`;
 CREATE TABLE `imgdata`  (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(255) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `imgname` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片名',
   `imgurl` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片链接',
   `userid` int(10) NULL DEFAULT NULL COMMENT '用户名',
   `updatetime` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上传时间',
   `sizes` int(255) NULL DEFAULT NULL COMMENT '文件大小',
-  `abnormal` int(2) NULL DEFAULT NULL COMMENT '异常',
+  `abnormal` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `source` int(2) NULL DEFAULT NULL COMMENT '存储源',
+  `imgtype` int(2) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 89 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for imgreview
@@ -90,14 +121,14 @@ CREATE TABLE `imgreview`  (
   `api_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `secret_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `Using` int(4) NULL DEFAULT NULL,
-  `count` int(10) NULL DEFAULT NULL COMMENT '拦截数量',
+  `count` int(255) NULL DEFAULT NULL COMMENT '拦截数量',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of imgreview
 -- ----------------------------
-INSERT INTO `imgreview` VALUES (1, '1111111111111111', '11111111111111111', '111111111111111', 0, 0);
+INSERT INTO `imgreview` VALUES (1, NULL, NULL, NULL, 0, 0);
 
 -- ----------------------------
 -- Table structure for keys
@@ -117,9 +148,9 @@ CREATE TABLE `keys`  (
 -- ----------------------------
 -- Records of keys
 -- ----------------------------
-INSERT INTO `keys` VALUES (1, '547046ec6495457783f040df098a8ce3', '255b334a4d174e95a3d9e5938f1966ab', 'https://nos-eastchina1.126.net', 'hellohao', 'https://hellohao.nos-eastchina1.126.net', 1);
+INSERT INTO `keys` VALUES (1, '', '', '', '', '', 1);
 INSERT INTO `keys` VALUES (2, '', '', '', '', '', 2);
-INSERT INTO `keys` VALUES (3, '', '', '', '', '', 3);
+INSERT INTO `keys` VALUES (3, '', '', '0', '', '', 3);
 INSERT INTO `keys` VALUES (4, '', '', '', '', '', 4);
 INSERT INTO `keys` VALUES (5, '0', '0', '0', '0', '0', 5);
 INSERT INTO `keys` VALUES (6, '', '', '', '', '', 6);
@@ -136,11 +167,6 @@ CREATE TABLE `notice`  (
   `id` int(4) NOT NULL,
   `text` varchar(10000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of notice
--- ----------------------------
-INSERT INTO `notice` VALUES (1, '2019-07-25');
 
 -- ----------------------------
 -- Table structure for sysconfig
@@ -168,16 +194,18 @@ CREATE TABLE `uploadconfig`  (
   `imgcounttourists` int(10) NULL DEFAULT NULL COMMENT '游客文件总数量, 超出则不允许加入队列',
   `imgcountuser` int(10) NULL DEFAULT NULL COMMENT '用户文件总数量, 超出则不允许加入队列',
   `suffix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '支持后缀',
-  `urltype` int(2) NULL DEFAULT NULL,
-  `isupdate` int(2) NOT NULL COMMENT '游客是否可以上传',
+  `urltype` int(2) NULL DEFAULT NULL COMMENT 'url类型',
+  `isupdate` int(2) NULL DEFAULT NULL COMMENT '禁止游客上传',
   `api` int(2) NOT NULL COMMENT '开启api',
+  `visitormemory` int(10) NULL DEFAULT NULL COMMENT '游客限制大小',
+  `usermemory` int(10) NULL DEFAULT 0 COMMENT '用户默认大小',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of uploadconfig
 -- ----------------------------
-INSERT INTO `uploadconfig` VALUES (1, 2, 5, 1, 5, 'gif,jpg,jpeg,bmp,png', 2, 0, 1);
+INSERT INTO `uploadconfig` VALUES (1, 3, 5, 1, 5, 'gif,jpg,jpeg,bmp,png', 1, 1, 1, 500, 1024);
 
 -- ----------------------------
 -- Table structure for user
@@ -192,12 +220,30 @@ CREATE TABLE `user`  (
   `level` int(10) NULL DEFAULT NULL COMMENT '等级',
   `uid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户唯一标识',
   `isok` int(2) NOT NULL,
+  `memory` int(10) NULL DEFAULT NULL COMMENT '用户内存大小',
+  `groupid` int(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'admin', 'admin', '2019-06-12', 2, 'admin', 1);
+INSERT INTO `user` VALUES (1, 'admin', 'YWRtaW4=', 'admin', '2019-06-12', 2, 'admin', 1, 1024, 1);
+
+-- ----------------------------
+-- Table structure for usergroup
+-- ----------------------------
+DROP TABLE IF EXISTS `usergroup`;
+CREATE TABLE `usergroup`  (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `userid` int(255) NULL DEFAULT NULL,
+  `groupid` int(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of usergroup
+-- ----------------------------
+INSERT INTO `usergroup` VALUES (1, 1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

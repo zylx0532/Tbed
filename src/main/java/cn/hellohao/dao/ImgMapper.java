@@ -20,10 +20,12 @@ public interface ImgMapper {
 
     Integer counts(@Param("userid") Integer userid);
 
-    Integer setabnormal(@Param("imgname") String imgname);
+    Integer setabnormal(@Param("imgname") String imgname,@Param("abnormal") String abnormal);
 
     Integer deleimgname(@Param("imgname") String imgname);
     Integer deleall(@Param("id") Integer id);
 
     List<Images> gettimeimg(@Param("time") String time);
+
+    Integer getusermemory(@Param("userid") Integer userid);
 }

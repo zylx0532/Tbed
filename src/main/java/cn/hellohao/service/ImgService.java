@@ -18,11 +18,13 @@ public interface ImgService {
 
     Integer counts(Integer userid);
 
-    Integer setabnormal(String imgname);
+    Integer setabnormal(String imgname,String abnormal);
 
     Integer deleimgname(String imgname);
 
     Integer deleall(Integer id);
 
     List<Images> gettimeimg(String time);
+
+    Integer getusermemory(Integer userid);
 }

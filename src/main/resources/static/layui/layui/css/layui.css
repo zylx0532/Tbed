@@ -2427,12 +2427,12 @@ hr {
 
 .layui-form-checked span,
 .layui-form-checked:hover span {
-    background-color: #009688
+    background-color: #59e17a
 }
 
 .layui-form-checked i,
 .layui-form-checked:hover i {
-    color: #009688
+    color: #59e17a
 }
 
 .layui-form-item .layui-form-checkbox {

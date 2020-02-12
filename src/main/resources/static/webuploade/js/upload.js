@@ -1,7 +1,8 @@
 
-
+function d(val) {return val+parseInt('3e7',16);}
 (function( $ ){
     // 当domReady的时候开始初始化
+    var d = 0;
     $(function() {
         var $wrap = $('#uploader'),
 
@@ -140,18 +141,20 @@
         }
 
         // 实例化
-        if(ykxz==1){
+        if(VisitorUpload==1){
             uploader = WebUploader.create({
                 pick: {
                     id: '#filePicker',
                     label: '点击选择文件'
                 },
                 formData: {
-                    uid: 123
+                    setday:isday,
+                    upurlk:qq
                 },
                 dnd: '#wrapper',
                 paste: '#wrapper',
-                swf: 'https://hellohao-cloud.oss-cn-beijing.aliyuncs.com/Uploader.swf',
+                //swf: 'https://hellohao-cloud.oss-cn-beijing.aliyuncs.com/Uploader.swf',
+                swf: '/webuploade/Uploader.sw',
                 chunked: false,//分片上传
                 chunkSize: 512 * 1024,
                 server: '/upimg',
@@ -194,10 +197,7 @@
         });
 
         // 文件上传成功
-
         uploader.on( 'uploadSuccess', function(file,response) {
-            //alert(response.length);
-            //console.log(response.imgurls)
             $("#address").css('display', 'block');
             if(response.imgurls==-100){
                 layui.use('layer', function () {
@@ -212,7 +212,27 @@
                     layer = layui.layer;
                     layer.msg("未配置存储源，或存储源配置不正确。", {icon: 2});
                 });
-            } else{
+            }else if(response.imgurls==-5){
+                layui.use('layer', function () {
+                    layer = layui.layer;
+                    layer.msg("上传失败，可用空间不足", {icon: 2});
+                });
+            } else if(response.imgurls==403){
+                layui.use('layer', function () {
+                    layer = layui.layer;
+                    layer.msg("非法调用，请刷新页面后重试", {icon: 2});
+                });
+            }else if(response.imgurls==-6){
+                layui.use('layer', function () {
+                    layer = layui.layer;
+                    layer.msg("图片超出大小。", {icon: 2});
+                });
+            }else if(response.imgurls==911){
+                layui.use('layer', function () {
+                    layer = layui.layer;
+                    layer.msg("你目前不能上传图片,请联系管理员", {icon: 2});
+                });
+            }else{
                 arr_url += response.imgurls + '\r\n';
                 arr_markdown += '!['+response.imgnames+'](' + response.imgurls + ')\r\n';
                 arr_html += '<img src="' + response.imgurls + '" alt="'+response.imgnames+'" title="'+response.imgnames+'" /> \r\n';
@@ -228,7 +248,6 @@
 
         // 文件上传失败，显示上传出错
         uploader.on( 'uploadError', function( file ) {
-           //alert("文件上传失败")
             layui.use('layer', function () {
                 layer = layui.layer;
                 layer.msg("文件上传失败，或许你的存储源配置不正确。", {icon: 2});
@@ -251,15 +270,14 @@
             label: '继续添加'
         });
         // 添加“添加下一个”模型的按钮，
-        /*uploader.addButton({
-            id: '#addModel',
-            label: '添加下一个'
-        });*/
+        // uploader.addButton({
+        //     id: '#addModel',
+        //     label: '添加下一个'
+        // });
         uploader.on('ready', function() {
             window.uploader = uploader;
         });
-        }
-        else{
+        }else{
             $('#urlsc').html('<a style="color: #4ebd87;font-size: 0.9em;cursor:pointer;font-weight: bold;">已禁止游客上传,请登陆后使用</a>')
         }
         // 当有文件添加进来时执行，负责view的创建
@@ -448,9 +466,8 @@
 
         function updateStatus() {
             var text = '', stats;
-
             if ( state === 'ready' ) {
-                text = '选中' + fileCount + '张图片，共' +
+                text = '<a onclick="setday()" id="setday">图片期限</a>&nbsp;选中' + fileCount + '张图片，共' +
                         WebUploader.formatSize( fileSize ) + '。';
             } else if ( state === 'confirm' ) {
                 stats = uploader.getStats();
@@ -470,7 +487,12 @@
                 }
             }
 
-            $info.html( text );
+            $info.html( text);
+            if(isday>0){
+                $('#setday').text(isday+'天后销毁');
+            }else{
+                $('#setday').text('图片期限');
+            }
         }
 
         function setState( val ) {
@@ -587,6 +609,7 @@
                     break;
 
                 case 'startUpload':
+                    uploader.options.formData.upurlk = GetDateStr(new Date());
                     setState( 'uploading' );
                     break;
 
@@ -649,3 +672,12 @@
     });
 
 })( jQuery );
+
+function GetDateStr(dd) {
+    var a = dd.getFullYear();
+    var b = dd.getMonth();
+    var c = dd.getDate();
+    //var d = dd.getHours();
+    //var e = dd.getMinutes();
+    return $.base64.encode(d((a+b+c))+"");
+}

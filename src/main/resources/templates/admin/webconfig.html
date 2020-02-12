@@ -2,10 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
     <title>系统配置</title>
     <link rel="stylesheet" th:href="@{/layui/layui/css/layui.css}">
-   
+    <style>
+        .layui-tab {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
 <div class="layui-main">
@@ -16,10 +20,10 @@
             <li lay-id="222">百度统计</li>
             <li lay-id="333">上传配置</li>
             <li lay-id="444">站点配置</li>
-
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
+
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <label class="layui-form-label">首页公告</label>
@@ -29,7 +33,6 @@
                             <span style="color: #DAA5A6;">欲想显示多个公告请用 | 分开</span>
                         </div>
                     </div>
-                    <hr />
                     <br/>
                 <div class="layui-form-item">
                     <label class="layui-form-label">网站标题</label>
@@ -43,7 +46,7 @@
                         <label class="layui-form-label">站点域名</label>
                         <div class="layui-input-block">
                             <input id="domain" type="text" name="title" autocomplete="off" placeholder="站点域名" class="layui-input"
-                                   th:value="${config.getDomain()}"/><span style="color: #DAA5A6;">填写访问本站的域名或IP,否则开启邮箱激活不能正常使用。需带有http://或https://</span>
+                                   th:value="${config.getDomain()}"/><span style="color: #DAA5A6;">填写访问本站的域名或IP,需带有http://或https://,否则开启邮箱激活和本地存储不能正常使用。如：http://127.0.0.1:8088,IP需带端口,最后不需要加/</span>
                         </div>
                     </div>
                     <br />
@@ -54,23 +57,15 @@
                                th:value="${config.getExplain()}"/>
                     </div>
                 </div>
-<!--                <br />-->
-<!--                <div class="layui-form-item">-->
-<!--                    <label class="layui-form-label">页面LOGO</label>-->
-<!--                    <div class="layui-input-block">-->
-<!--                        <input id="logos" type="text" name="title" autocomplete="off" placeholder="页面LOGO" class="layui-input"-->
-<!--                               th:value="${config.getLogos()}"/><span style="color: #DAA5A6;">图片推荐大小：242px*33px</span>-->
-<!--                    </div>-->
-<!--                </div>-->
                     <br />
-<!--                <div class="layui-form-item">-->
-<!--                    <label class="layui-form-label">底部版权</label>-->
-<!--                    <div class="layui-input-block">-->
-<!--                        <input id="footed" type="text" name="title" autocomplete="off" placeholder="底部版权" class="layui-input"-->
-<!--                               th:value="${config.getFooted()}"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">视频背景</label>
+                            <div class="layui-input-block">
+                                <input id="video" type="text" name="title" autocomplete="off" placeholder="视频url地址" class="layui-input"
+                                       th:value="${config.getVideo()}"/><span style="color: #DAA5A6;">如果你的服务器带宽较差，不建议使用视频背景</span>
+                            </div>
+                        </div>
+                    <br />
                     <div class="layui-form-item">
                         <label class="layui-form-label">首页背景一</label>
                         <div class="layui-input-block">
@@ -96,28 +91,34 @@
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                    <br />-->
-
-<!--                <div class="layui-form-item">-->
-<!--                    <label class="layui-form-label">友情链接</label>-->
-<!--                    <div class="layui-input-block">-->
-<!--                        <textarea id="links" name="links" placeholder="请输入内容" class="layui-textarea" th:text="${config.getLinks()}"></textarea>-->
-<!--                        <span style="color: #DAA5A6;">友链格式（否则会显示异常）：<xmp><li><a src="地址">网站名</a></li></xmp></span>-->
-<!--                    </div>-->
-<!--                </div>-->
-
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备案显示</label>
+                    <div class="layui-input-block">
+                        <textarea id="links" name="links" placeholder="备案号，可用html代码" class="layui-textarea" th:text="${config.getLinks()}"></textarea>
+                        <span style="color: #DAA5A6;">不填写，则不显示<xmp></xmp></span>
+                    </div>
+                </div>
                     <br />
                     <form class="layui-form-item " >
                         <div class="laydfdaui-form-item">
+                            <label class="layui-form-label">背景类型</label>
+                            <div class="layui-input-block" id="backtype">
+                                <input type="radio" id="backtype1" name="isbacktype" value="1" title="图片壁纸">
+                                <input type="radio" id="backtype2" name="isbacktype" value="2" title="视频壁纸">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="laydfdaui-form-item">
                             <label class="layui-form-label">首页类型</label>
                             <div class="layui-input-block" id="sett">
-                                <input type="radio" id="sett1" name="settweb" value="1" title="默认首页" checked>
-                                <input type="radio" id="sett2" name="settweb" value="2" title="精简首页">
+                                <input type="radio" id="sett11" name="settweb" value="1" title="默认首页">
+                                <input type="radio" id="sett22" name="settweb" value="2" title="精简首页">
                             </div><span style="color: #DAA5A6;">精简首页：页面加载完直接打开上传页面，没有展示页</span>
                         </div>
                     </form>
+                    </form>
                 </form>
-                <br />
-                <a class="layui-btn" lay-filter="demo2" onclick="updateconfig()">保存</a>
+                <a class="layui-btn" lay-filter="demo2" style="float: right;margin-right: 50px;" onclick="updateconfig()">保存</a>
             </div>
             <div class="layui-tab-item">
                 <form class="layui-form layui-form-pane" action="">
@@ -127,13 +128,11 @@
                         <textarea id="baidu" name="baidu" placeholder="请输入统计JS代码" class="layui-textarea" th:text="${config.getBaidu()}"></textarea>
                         <span style="color: #DAA5A6;"><xmp>添加网站统计的JS代码，不需要要添加<script>标签</script></xmp></span>
                     </div>
-                    <a class="layui-btn" lay-filter="demo2" onclick="updatebaidu()">保存</a>
+                    <a class="layui-btn" lay-filter="demo2" style="float: right;margin-right: 50px;" onclick="updatebaidu()">保存</a>
                 </div>
                 </form>
             </div>
 <!--分组3-->
-
-
             <div class="layui-tab-item">
                 <h3 style="margin-top: 50px;">站点API配置</h3>
                 <hr />
@@ -159,7 +158,7 @@
                     </div>
                 </form>
                 <div class="layui-inline">
-                    <label class="layui-form-label" style="width: 100px;">单个文件大小(M)</label>
+                    <label class="layui-form-label" style="width: 100px;">单文件大小(M)</label>
                     <div class="layui-input-inline" style="width: 100px;">
                         <input id="filesizetourists" th:value="${updateConfig.getFilesizetourists()}"  type="text" name="" autocomplete="off" class="layui-input">
                     </div>
@@ -174,7 +173,7 @@
                 <h3 style="margin-top: 50px;">会员上传配置</h3>
                 <hr />
                 <div class="layui-inline" >
-                    <label class="layui-form-label" style="width: 100px;">单个文件大小(M)</label>
+                    <label class="layui-form-label" style="width: 100px;">单文件大小(M)</label>
                     <div class="layui-input-inline" style="width: 100px;">
                         <input id="filesizeuser" th:value="${updateConfig.getFilesizeuser()}" type="text" name="" autocomplete="off" class="layui-input">
                     </div>
@@ -183,6 +182,21 @@
                     <label class="layui-form-label" style="width: 100px;">单次上传个数</label>
                     <div class="layui-input-inline" style="width: 100px;">
                         <input id="imgcountuser" th:value="${updateConfig.getImgcountuser()}" type="text" name="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <br />
+                <h3 style="margin-top: 50px;">存储容量分配(M)&nbsp;&nbsp;<span style="color: #DAA5A6;">输入“-1”则为无限制</span></h3>
+                <hr />
+                <div class="layui-inline" >
+                    <label class="layui-form-label" style="width: 100px;">游客可用总容量</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input id="visitormemory" th:value="${updateConfig.getVisitormemory()}" lay-verify="required" type="text" name="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline" style="margin-left: 50px;">
+                    <label class="layui-form-label" style="width: 100px;">用户初始容量</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <input id="usermemory" th:value="${updateConfig.getUsermemory()}" lay-verify="required" type="text" name="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <br />
@@ -202,15 +216,25 @@
                     <label class="layui-form-label">链接格式</label>
                     <div class="layui-input-block" id="imgurltype">
                         <input type="radio" id="urltype1" name="urltype" value="1" title="用户名格式：/user/">
-                        <input type="radio"  id="urltype2" name="urltype" value="2" title="日期格式：/YY/mm/dd/" checked>
+                        <input type="radio" id="urltype2" name="urltype" value="2" title="日期格式：/YY/mm/dd/" checked>
                     </div>
                 </div>
                 </form>
+                <hr />
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">IP黑名单</label>
+                        <div class="layui-input-block">
+                            <textarea id="blacklist" name="blacklist" placeholder="127.0.0.1;127.0.0.2" class="layui-textarea" th:text="${updateConfig.getBlacklist()}"></textarea>
+                            <span style="color: #DAA5A6;"><xmp>多个IP用;（英文分号）隔开 例如：127.0.0.1;127.0.0.2 否则无法生效</xmp></span>
+                        </div>
+                    </div>
+                </form>
                 <br />
 
-                <a class="layui-btn" lay-filter="demo2" onclick="scconfig()">保存</a>
+                <a class="layui-btn" lay-filter="demo2" style="float: right;margin-right: 50px;" onclick="scconfig()">保存</a>
             </div>
-<!--站点设置-->
+            <!--站点设置-->
             <div class="layui-tab-item">
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
@@ -221,9 +245,36 @@
                         </div>
                     </div>
                 </form>
-                <h3>更多功能陆续开放...</h3>
+                <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">站点关键词</label>
+                    <div class="layui-input-block">
+                        <input id="webkeywords" th:value="${config.getWebkeywords()}" type="text" name="title" required  lay-verify="required" placeholder="配置站点关键词" autocomplete="off" class="layui-input">
+                        <span style="color: #DAA5A6;">多个关键词用(英文)“ , ”隔开</span>
+                    </div>
+                </div>
+                </form>
+                <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">站点图标</label>
+                    <div class="layui-input-block">
+                        <input id="webfavicons" th:value="${config.getWebfavicons()}" type="text" name="title" required  lay-verify="required" placeholder="站点(favicon)图标链接URL" autocomplete="off" class="layui-input">
+                        <span style="color: #DAA5A6;">填写站点(favicon)图标的,大小控制在64×64以内，需是.ico格式的链接</span>
+                    </div>
+                </div>
+                </form>
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">站点描述</label>
+                        <div class="layui-input-block">
+                            <textarea id="webms" name="webms" placeholder="请输入站点标描述，这样有利于搜索引擎" class="layui-textarea" th:text="${config.getWebms()}"></textarea>
+                            <span style="color: #DAA5A6;"><xmp>添加网站统计的JS代码，不需要要添加<script>标签</script></xmp></span>
+                        </div>
+                    </div>
+                </form>
+                <br />
+                <a class="layui-btn" lay-filter="demo2" style="float: right;margin-right: 50px;" onclick="updateconfig()">保存</a>
             </div>
-
         </div>
     </div>
 </div>
@@ -233,7 +284,8 @@
     <script type="text/javascript">
         var isupval = [[${updateConfig.getIsupdate()}]];
         var isapi = [[${updateConfig.getApi()}]];
-        var state = [[${sysconfig.getRegister()}]];
+        var state = [[${sysconfig==null?0:sysconfig.getRegister()}]];
+        var group = [[${group}]];
         $(function () {
             layui.use(['form','table','element'], function(){
                 var table = layui.table;
@@ -254,7 +306,6 @@
                         upapi(0);
                     }
                 });
-
                 form.on('switch(switchTest3)', function (data) {
                     if (this.checked == true) {
                         setstate(1);
@@ -262,7 +313,11 @@
                         setstate(2);
                     }
                 });
-
+                form.on('select(group)', function(data){
+                    group = data.value;
+                });
+                $('#group').val(group);
+                form.render('select');
                 });
             if (isupval == 1) {
                 $('#upopen').attr("checked", 'hellohao'); //增加属性
@@ -279,39 +334,63 @@
             } else {
                 $('#dologo').removeAttr("checked"); //移除属性
             }
-
         });
         $(function () {
            var usertype = [[${updateConfig.getUrltype()!=null?updateConfig.getUrltype():1}]];
+            var backtype = [[${config.getBacktype()!=null?config.getBacktype():1}]];
             var sett = [[${config.getSett()}]];
-           if(usertype==2){
+            if(usertype==2){
                $('#urltype2:radio:input:radio:last').attr('checked', 'true');
            }else{
                $('#urltype1:radio:first').attr('checked', 'true');
            }
-            if(sett==2){
-                $('#sett2:radio:input:radio:last').attr('checked', 'true');
+           if(backtype==2){
+               $('#backtype2:radio:input:radio:last').attr('checked', 'true');
+           }else{
+               $('#backtype1:radio:first').attr('checked', 'true');
+           }
+
+            if(sett != 1){
+                $('#sett22:radio:input:radio:last').attr('checked', 'true');
             }else{
-                $('#sett1:radio:first').attr('checked', 'true');
+                $('#sett11:radio:first').attr('checked', 'true');
             }
+            $.ajax({
+                type: "POST",
+                url: "/admin/root/getgrouplist",
+                //data: {groupid:groupid},
+                dataType: "json",
+                success: function (data) {
+                    var body = '';//<option value="0">&nbsp;默认群组</option>
+                    for(var i=0;i<data.length;i++){
+                        body+='<option value="'+data[i].id+'">'+data[i].groupname+'</option>';
+                    }
+                    $('#group').append(body);
+                    form.render('select');
+                }
+            });
         });
         function updateconfig() {
                 var webname = $("#webname").val();
                 var explain = $("#explain").val();
-                var logos = $("#logos").val();
-                var footed = $("#footed").val();
+                var video = $("#video").val();
+                var backtype = $('#backtype input[name="isbacktype"]:checked ').val();
                 var links = $("#links").val();
                 var notice = $("#notice").val();
                 var domain = $("#domain").val();
                 var background1 = $("#background1").val();
                 var background2 = $("#background2").val();
                 var sett = $('#sett input[name="settweb"]:checked ').val();
+                var webms = $("#webms").val();
+                var webkeywords = $("#webkeywords").val();
+                var webfavicons = $("#webfavicons").val();
                 if (webname != "" && domain!="" ) {
                     $.ajax({
                         type: "POST",
                         url: "/admin/root/updateconfig",
                         dataType: "json",
-                        data: {webname: webname, explain: explain, logos: logos,footed:footed,links:links,notice:notice,domain:domain,background1:background1,background2:background2,sett:sett},
+                        data: {webname: webname, explain: explain, video: video,backtype:backtype,links:links,notice:notice,
+                            domain:domain,background1:background1,background2:background2,sett:sett,webms:webms,webkeywords:webkeywords,webfavicons:webfavicons},
                         success: function (data) {
                             var vals = Number(data);
                             if (vals > 0) {
@@ -351,14 +430,19 @@
             var imgcountuser = $("#imgcountuser").val();
             var suffix = $("#suffix").val();
             var imgurltype = $('#imgurltype input[name="urltype"]:checked ').val();
+            var blacklist = $('#blacklist').val();
+            var visitormemory = $('#visitormemory').val();
+            var usermemory = $('#usermemory').val();
             var re = new RegExp("^[0-9]*[1-9][0-9]*$");
-            if(filesizetourists!=""&&filesizeuser!=""&&imgcounttourists!=""&&imgcountuser!=""&&suffix!=""){
+            if(filesizetourists!=""&&filesizeuser!=""&&imgcounttourists!=""&&imgcountuser!=""&&suffix!=""&&visitormemory!=""&&usermemory!=""){
                 if(re.test(filesizetourists) && re.test(imgcounttourists) && re.test(filesizeuser) && re.test(imgcountuser)){
                     $.ajax({
                         type: "POST",
                         url: "/admin/root/scconfig",
                         dataType: "json",
-                        data: {filesizetourists: filesizetourists,filesizeuser:filesizeuser,imgcounttourists:imgcounttourists,imgcountuser:imgcountuser,suffix:suffix,urltype:imgurltype},
+                        data: {filesizetourists: filesizetourists,filesizeuser:filesizeuser,imgcounttourists:imgcounttourists,
+                            imgcountuser:imgcountuser,suffix:suffix,urltype:imgurltype,visitormemory:visitormemory,usermemory:usermemory,
+                            blacklist:blacklist},
                         success: function (data) {
                             var vals = Number(data);
                             if (vals > 0) {
@@ -418,6 +502,7 @@
                 }
             });
         }
+
         function setstate(values) {
             $.ajax({
                 type: "POST",
@@ -434,6 +519,23 @@
                         }
                     } else {
                         layer.msg("操作失败，请重新打开页面会后尝试", {icon: 2});
+                    }
+                }
+            });
+        }
+
+        function webset() {
+            $.ajax({
+                type: "POST",
+                url: "/admin/root/settstoragetype",
+                dataType: "json",
+                data: {storagetype: group},
+                success: function (data) {
+                    var vals = Number(data);
+                    if (vals > 0) {
+                        layer.msg("保存成功", {icon: 1});
+                    } else {
+                        layer.msg("保存失败，请尝试刷新页面后操作", {icon: 2});
                     }
                 }
             });

@@ -4,7 +4,7 @@ import cn.hellohao.pojo.SysConfig;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author Tiansh
+ * @author Hellohao
  * @version 1.0
  * @date 2019/8/15 13:33
  */
